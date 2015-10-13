@@ -18,7 +18,7 @@ namespace ObserverUnitTest
         {
             InitializeComponent();
 
-            jef = new Kok();
+            jef = new Kok(bestelwachtlijst, this);
             jef.werkMaarOnafhankelijk();
         }
 
