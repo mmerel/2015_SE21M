@@ -39,13 +39,13 @@ namespace ObserverUnitTest
 
         public String watBenJeAanHetDoen()
         {
-            Console.WriteLine("Iemand roept wat ik aan het doen ben...");
-            werkMaarOnafhankelijk();
+            form1.kokDenkt("Iemand roept wat ik aan het doen ben...");
+            werkMaarVerderOnafhankelijk();
 
             return watBenIkAanhetDoen;
         }
 
-        internal void werkMaarOnafhankelijk()
+        internal void werkMaarVerderOnafhankelijk()
         {
             if (newThread == null)
             {
@@ -56,7 +56,6 @@ namespace ObserverUnitTest
 
             if(newThread.ThreadState != ThreadState.Running )
             {
-                Console.WriteLine("Ik ga  kijken of ik iets kan doen...");
                 signaalWaaropIkWacht.Set();
             }
         }
@@ -74,18 +73,7 @@ namespace ObserverUnitTest
 
         private void IkBehandelDeVolgendeBestelling(int b)
         {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (bestelwachtlijst.InvokeRequired)
-            {
-                SetTextCallback d = new SetTextCallback(IkBehandelDeVolgendeBestelling);
-                form1.Invoke(d, new object[] { b });
-            }
-            else
-            {
-                bestelwachtlijst.Items.RemoveAt(b);
-            }
+            form1.kokIsMetBestellingBezig(b);
         }
 
         private void doIets(object data)
@@ -94,7 +82,7 @@ namespace ObserverUnitTest
             {
                 if (watBenIkAanhetDoen == status_niets)
                 {
-                    Console.WriteLine("Staat er me iets te doen op het lijstje?");
+                    form1.kokDenkt("Staat er me iets te doen op het lijstje?");
 
                     if (bestelwachtlijst.Items.Count > 0)
                     {
@@ -102,7 +90,7 @@ namespace ObserverUnitTest
                         IkBehandelDeVolgendeBestelling(0);
                     } else
                     {
-                        Console.WriteLine("Genoeg gewerkt, ik wacht tot iemand me wakker maakt...");
+                        form1.kokDenkt("Genoeg gewerkt, ik wacht tot iemand me wakker maakt...");
                         watBenIkAanhetDoen = status_niets;
                         signaalWaaropIkWacht.WaitOne();
                     }
@@ -110,29 +98,31 @@ namespace ObserverUnitTest
 
                 // Afhankelijk van het type gerecht, ga ik langer of
                 // korter hieraan werken.
-                if (watBenIkAanhetDoen == "appelmoes met frietjes")
+                if (watBenIkAanhetDoen.Equals("appelmoes met frietjes"))
                 {
-                    watBenIkAanhetDoen = "appelmoes met frietjes te maken";
-                    Thread.Sleep(10000); // Ik werk hier 10 seconden aan...
-                    watBenIkAanhetDoen = status_niets;
+                    doe("appelmoes met frietjes", 1000);
                 }
 
-                if (watBenIkAanhetDoen == "dame blanche")
+                if (watBenIkAanhetDoen.Equals("dame blanche"))
                 {
-                    watBenIkAanhetDoen = "een dame blanche te maken";
-                    Thread.Sleep(20000); // Ik werk hier 20 seconden aan...
-                    watBenIkAanhetDoen = status_niets;
+                    doe("dame blanche", 5000);
                 }
 
-                if (watBenIkAanhetDoen == "steak met curry saus")
+                if (watBenIkAanhetDoen.Equals("steak met curry saus"))
                 {
-                    watBenIkAanhetDoen = "een steak met curry saus te maken";
-                    Thread.Sleep(30000); // Ik werk hier 30 seconden aan...
-                    watBenIkAanhetDoen = status_niets;
+                    doe("steak met curry saus", 8000);
                 }
             }
         }
+
+        private void doe(string werk, int tijd)
+        {
+            form1.kokDenkt("Even beginnen aan " + werk + " te maken. Ben ik weer "+ (tijd/1000) + "s mee bezig.");
+            watBenIkAanhetDoen = werk+" te maken";
+            Thread.Sleep(tijd); // Ik werk hier 10 seconden aan...
+            watBenIkAanhetDoen = status_niets;
+        }
     }
 
-    delegate void SetTextCallback(int i);
+   
 }
