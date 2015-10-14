@@ -57,25 +57,58 @@ namespace ObserverUnitTest
         delegate void SetTextboxCallback(String extragedachte);
 
         int lines = 0;
+        Boolean magDenken = true;
         internal void kokDenkt(string v)
         {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (textBox1.InvokeRequired)
+            if (magDenken)
             {
-                SetTextboxCallback d = new SetTextboxCallback(kokDenkt);
-                this.Invoke(d, new object[] { v });
-            }
-            else
-            {
-                this.textBox1.AppendText("\r\n"+v);
+                // InvokeRequired required compares the thread ID of the
+                // calling thread to the thread ID of the creating thread.
+                // If these threads are different, it returns true.
+                if (textBox1.InvokeRequired)
+                {
+                    SetTextboxCallback d = new SetTextboxCallback(kokDenkt);
+                    this.Invoke(d, new object[] { v });
+                }
+                else
+                {
+                    this.textBox1.AppendText("\r\n" + v);
+                }
             }
         }
 
-        private void pictureBox4_Click(object sender, EventArgs e)
+        public void pictureBox4_Click(object sender, EventArgs e)
         {
             this.statuskok.Text = jef.watBenJeAanHetDoen();
         }
+
+
+        /**
+        * De single responsibility van onze applicatie is nog niet in orde.
+        *
+        *   Er is geen scheiding tussen het beheren van de bestellingen en de weergave van de bestellingen
+        *
+        *   Beter zou zijn om een nieuwe klasse te maken die de bestellingen beheert, 
+        *   en de GUI die deze inhoud uitleest en weergeeft.
+        */
+        public int hoeveelBestellingenZijnEr()
+        {
+            return this.bestelwachtlijst.Items.Count;
+        }
+        
+        public void voegProductToe(string v)
+        {
+            this.bestelwachtlijst.Items.Add(v);
+        }
+        public String getStatusKok()
+        {
+            return jef.getStatus();
+        }
+
+        public void disableKokThinking()
+        {
+            magDenken = false;
+        }
+
     }
 }

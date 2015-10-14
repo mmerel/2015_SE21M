@@ -174,6 +174,8 @@ namespace ObserverUnitTest
 
         }
 
+
+
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;

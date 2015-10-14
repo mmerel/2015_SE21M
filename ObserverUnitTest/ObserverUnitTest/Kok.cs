@@ -115,6 +115,11 @@ namespace ObserverUnitTest
             }
         }
 
+        internal string getStatus()
+        {
+            return this.watBenIkAanhetDoen;
+        }
+
         private void doe(string werk, int tijd)
         {
             form1.kokDenkt("Even beginnen aan " + werk + " te maken. Ben ik weer "+ (tijd/1000) + "s mee bezig.");
