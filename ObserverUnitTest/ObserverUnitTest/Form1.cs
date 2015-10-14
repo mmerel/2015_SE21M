@@ -17,9 +17,8 @@ namespace ObserverUnitTest
         public Form1()
         {
             InitializeComponent();
-
-            jef = new Kok(bestelwachtlijst, this);
-            jef.werkMaarVerderOnafhankelijk();
+            startKok();
+           
         }
 
         internal void updateStatus(string v)
@@ -110,5 +109,13 @@ namespace ObserverUnitTest
             magDenken = false;
         }
 
+        public void startKok()
+        {
+            if (jef == null) // Not thread safe!
+            {
+                jef = new Kok(bestelwachtlijst, this);
+                jef.werkMaarVerderOnafhankelijk();
+            }
+        }
     }
 }

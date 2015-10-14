@@ -17,6 +17,11 @@ namespace ObserverUnitTest.Tests
         {
             // -Maak een lege bestellijst
             Form1 form = new Form1();
+            
+            // Als de test snel genoeg is, zijn
+            // de bestellingen al toegevoegd nog voor
+            // de kok in slaap ligt.
+            while (!form.getStatusKok().Equals("dromen...")) ;
 
             // Ik probeer er eerst zeker van te zijn dat de kok aan het indommelen is.
             Assert.AreEqual(0, form.hoeveelBestellingenZijnEr());

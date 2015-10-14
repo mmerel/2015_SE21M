@@ -11,7 +11,7 @@ namespace ObserverUnitTest
         static String status_bezig_met_bestelling = "bezig met bestelling";
         static String status_niets = "dromen...";
 
-        String watBenIkAanhetDoen = status_niets;
+        String watBenIkAanhetDoen = "juist begonnen...";
 
         // An AutoReset event that allows the main thread to block
         // until an exiting thread has decremented the count.
@@ -80,7 +80,7 @@ namespace ObserverUnitTest
         {
             while (true)
             {
-                if (watBenIkAanhetDoen == status_niets)
+                if (watBenIkAanhetDoen == "juist begonnen..." || watBenIkAanhetDoen == status_niets)
                 {
                     form1.kokDenkt("Staat er me iets te doen op het lijstje?");
 
